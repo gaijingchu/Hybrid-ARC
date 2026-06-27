@@ -26,14 +26,13 @@ cohort, train/heldout split, and — crucially — the *identical* eval episodes
 | **HYBRID** (uncond p(z) + guidance, select@32) | **11.39M** | C=32 + guided sampling | **0.175** | **0.857** |
 | search ← zero (reference, same filler) | (filler 7.36M) | 200-step latent search | ~0.170 | ~0.86 |
 | vanilla AR — greedy | 11.50M | 1 decode | 0.016 | 0.531 |
-| vanilla AR — vote@32 | 11.50M | 32 decodes | ≈0.016¹ | ≈0.53¹ |
+| vanilla AR — vote@32 | 11.50M | 32 decodes | 0.016 | 0.561 |
 | vanilla diffusion — greedy (T=8) | 11.50M | 8 steps | 0.013 | 0.502 |
 | vanilla diffusion — vote@32 (T=8) | 11.50M | 32×8 steps | 0.013 | 0.506 |
 
 *n = 320 TRAIN-split query episodes (eval_n=10 × eval_bs=32), all methods on the identical episodes.
-¹ AR vote@32 self-consistency: the 144-step×32-candidate decode is still finishing; it will not move the
-story — for vanilla diffusion vote@32 was identical to greedy (0.013 = 0.013), because at near-chance
-exact accuracy there is no correct consensus to pool.*
+Self-consistency vote@32 gives the flat baselines no exact-match lift over greedy (AR 0.016=0.016,
+diffusion 0.013=0.013): at near-chance accuracy there is no correct consensus to pool.*
 
 **Takeaway.** At **matched parameters (~11.4M)** and a **matched 32-sample test-time budget**, on the
 **rule-in-training TRAIN split**, the hybrid's exact-match is **0.175 — ~11× vanilla AR (0.016) and ~13×
